@@ -4,7 +4,7 @@ import Data.Set as S
 dedupe :: (Eq a, Ord a) => [a] -> [a]
 dedupe = S.toList . S.fromList
 
-smallestSubsetSumOfLength :: Int -> [Int] -> Int
+smallestSubsetSumOfLength :: (Eq a, Ord a, Num a) => a -> [a] -> a
 smallestSubsetSumOfLength 0 _ = 0
 smallestSubsetSumOfLength n xs = sum $ L.take 20 $ dedupe . L.sort $ xs
 
