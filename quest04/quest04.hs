@@ -2,7 +2,7 @@ import Data.List
 import Data.Text (splitOn, pack, unpack)
 
 totalRatio :: [Double] -> Double
-totalRatio xs = product $ zipWith (/) xs (tail xs)
+totalRatio xs = head xs / last xs
 
 totalRatio' :: [[Double]] -> Double
 totalRatio' xs = product $ zipWith gearRatioDivision xs (tail xs)
@@ -17,11 +17,6 @@ gearRatioDivision x y
 
 main :: IO ()
 main = do
-    -- let sample1 = [128, 64, 32, 16, 8]
-    -- let sample2 = [102, 75, 50, 35, 13]
-    -- let sample3 = ["5", "5|10", "10|20", "5"]
-    -- let sample4 = ["5", "7|21", "18|36", "27|27", "10|50", "10|50", "11"]
-
     -- P1
     print "P1"
     let gears1 = [1000, 998, 976, 964, 951, 928, 912, 890, 874, 848, 844, 821, 793, 781, 752, 751, 739, 714, 690, 678, 664, 649, 640, 616, 604, 592, 591, 570, 556, 528, 523, 520, 514, 497, 470, 461, 442, 415, 390, 373, 361, 333, 310, 307, 278, 251, 235, 226, 204, 175]
