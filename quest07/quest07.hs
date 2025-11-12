@@ -30,7 +30,7 @@ solveP3 rawRules rules names = let
     filteredNames = filter (testName rules) names
     allTheNames = foldl (\acc x -> acc ++ allNames rawRules x) [] filteredNames
     in
-        length $ S.fromList $ filter (\x -> length x >= 7) $ allTheNames
+        length $ S.fromList $ filter (\x -> length x >= 7) allTheNames
 
 main :: IO ()
 main = do
