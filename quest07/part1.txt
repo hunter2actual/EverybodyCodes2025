@@ -1,0 +1,11 @@
+r > d,i
+v > y
+N > y
+y > a,b,r
+e > b
+t > h
+l > v,a,i
+a > r
+A > e
+d > i
+i > t,r,n
