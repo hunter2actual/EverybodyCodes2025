@@ -24,22 +24,14 @@ knots xs = sum $ zipWith go xs prevs
         go cur prev = length $ filter (intersects cur) prev
 
 cuts :: [(Int, Int)] -> (Int, Int) -> Int
-cuts xs c = length $ filter (intersects' c) xs
+cuts xs c = length $ filter (\x -> same c x || intersects c x) xs
 
-intersects' :: Ord a => (a, a) -> (a, a) -> Bool
-intersects' (a1, a2) (b1, b2)
-    | a1 == b1 && a2 == b2 = True -- cutting along a thread counts as a cut
-    | a1 == b2 && a2 == b1 = True
-    | a1 == b1 || a2 == b2 = False
-    | a1 == b2 || a2 == b1 = False
-    | otherwise = [sorted!!0, sorted!!2] == L.sort [a1, a2]
-               || [sorted!!0, sorted!!2] == L.sort [b1, b2]
-        where
-            sorted = L.sort [a1, a2, b1, b2]
+same :: Eq a => (a, a) -> (a, a) -> Bool
+same (a1, a2) (b1, b2) = (a1 == b1 && a2 == b2) || (a1 == b2 && a2 == b1)
 
 solveP3 :: Int -> [Int] -> Int
 solveP3 n xs = maximum $ map (cuts (pairs xs)) (allPossibleCuts n)
-    where allPossibleCuts n = [ (a,b) | a <- [1..n], b <- [1..n], a /= b]
+    where allPossibleCuts n = [ (a,b) | a <- [1..n], b <- [1..a], a /= b]
 
 main :: IO ()
 main = do
@@ -53,5 +45,4 @@ main = do
 
     part3 <- readFile "quest08/part3.txt"
     let sequence3 = (read ("[" ++ part3 ++ "]") :: [Int])
-    print $ solveP3 256 sequence3 -- Brute force ~9 minutes
-
+    print $ solveP3 256 sequence3 -- brute force ~5 mins
