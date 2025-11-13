@@ -23,9 +23,6 @@ knots xs = sum $ zipWith go xs prevs
         prevs = init $ scanl (\acc x -> acc ++ [x]) [] xs
         go cur prev = length $ filter (intersects cur) prev
 
-allPossibleCuts :: Int -> [(Int, Int)]
-allPossibleCuts n = [ (a,b) | a <- [1..n], b <- [1..n], a /= b]
-
 cuts :: [(Int, Int)] -> (Int, Int) -> Int
 cuts xs c = length $ filter (intersects' c) xs
 
@@ -42,6 +39,7 @@ intersects' (a1, a2) (b1, b2)
 
 solveP3 :: Int -> [Int] -> Int
 solveP3 n xs = maximum $ map (cuts (pairs xs)) (allPossibleCuts n)
+    where allPossibleCuts n = [ (a,b) | a <- [1..n], b <- [1..n], a /= b]
 
 main :: IO ()
 main = do
