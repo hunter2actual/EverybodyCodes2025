@@ -80,7 +80,3 @@ main = do
     file2 <- readFile "quest15/part2.txt"
     let (walls2, goal2) = buildMap $ parse file2
     print $ solveBFS (0,0) goal2 walls2
-
-    file3 <- readFile "quest15/part3.txt"
-    let (walls3, goal3) = buildMap $ parse file3
-    print $ solveBFS (0,0) goal3 walls3
