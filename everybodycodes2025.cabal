@@ -1,0 +1,16 @@
+cabal-version:      3.0
+name:               everybodycodes2025
+version:            0.1.0.0
+
+common warnings
+    ghc-options: -Wall
+
+executable everybodycodes2025
+    import:           warnings
+    main-is:          part3.hs
+    build-depends:    
+        base ^>=4.18.3.0,
+        containers,
+        array
+    hs-source-dirs:   quest15
+    default-language: Haskell2010
