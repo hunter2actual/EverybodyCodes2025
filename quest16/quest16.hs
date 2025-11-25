@@ -29,21 +29,13 @@ binarySearch f target lo hi
         mid = (lo + hi) `div` 2
         v   = f mid
 
-findUpperBound :: (Int -> Int) -> Int -> Int
-findUpperBound f target = go 1
-    where
-        go hi
-            | f hi >= target = hi
-            | otherwise      = go (hi * 2)
-
 solveP3 :: Int -> [Int] -> Int
 solveP3 target wallFragment =
     let
         spell = deriveSpell wallFragment
         f = numBricks spell
-        upperBound = findUpperBound f target
     in
-        binarySearch f target 0 upperBound
+        binarySearch f target 0 target
 
 main :: IO ()
 main = do
