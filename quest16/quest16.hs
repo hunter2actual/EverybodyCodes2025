@@ -1,5 +1,5 @@
 import Data.List.Split (splitOn)
-import Data.List (elemIndex, sort)
+import Data.List (elemIndex)
 
 parse :: String -> [Int]
 parse file = map read $ splitOn "," file
@@ -8,7 +8,7 @@ numBricks :: [Int] -> Int -> Int
 numBricks spell wallLength = sum $ map (div wallLength) spell
 
 deriveSpell :: [Int] -> [Int]
-deriveSpell wallFragment = sort $ map (+1) $ go [] wallFragment
+deriveSpell wallFragment = reverse $ map (+1) $ go [] wallFragment
     where
         go arr xs = case elemIndex 1 xs of
             Just i  -> go (i:arr) $ step (i+1) xs
@@ -19,17 +19,15 @@ deriveSpell wallFragment = sort $ map (+1) $ go [] wallFragment
             ys
 
 binarySearch :: (Int -> Int) -> Int -> Int -> Int -> Int
-binarySearch f target lo hi =
-    let mid = (lo + hi) `div` 2
+binarySearch f target lo hi
+    | v == target                           = mid
+    | (v < target) && (f (mid+1) > target)  = mid -- this is the case where we have bricks left over
+    | v < target                            = binarySearch f target (mid + 1) hi
+    | v > target                            = binarySearch f target lo (mid - 1)
+    | otherwise                             = error "panic"
+    where
+        mid = (lo + hi) `div` 2
         v   = f mid
-    in
-        if (f mid < target) && (f (mid+1) > target)
-            then mid -- Case where we have bricks left over
-            else
-                case compare v target of
-                    EQ -> mid
-                    LT -> binarySearch f target (mid + 1) hi
-                    GT -> binarySearch f target lo (mid - 1)
 
 findUpperBound :: (Int -> Int) -> Int -> Int
 findUpperBound f target = go 1
@@ -37,6 +35,15 @@ findUpperBound f target = go 1
         go hi
             | f hi >= target = hi
             | otherwise      = go (hi * 2)
+
+solveP3 :: Int -> [Int] -> Int
+solveP3 target wallFragment =
+    let
+        spell = deriveSpell wallFragment
+        f = numBricks spell
+        upperBound = findUpperBound f target
+    in
+        binarySearch f target 0 upperBound
 
 main :: IO ()
 main = do
@@ -47,8 +54,4 @@ main = do
     print $ product $ deriveSpell $ parse file2
 
     file3 <- readFile "quest16/part3.txt"
-    let spell = deriveSpell $ parse file3
-    let target = 202520252025000
-    let f = numBricks spell
-    let upperBound = findUpperBound f target
-    print $ binarySearch f target 0 upperBound
+    print $ solveP3 202520252025000 $ parse file3
