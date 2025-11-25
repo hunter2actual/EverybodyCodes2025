@@ -7,10 +7,10 @@ common warnings
 
 executable everybodycodes2025
     import:           warnings
-    main-is:          part3.hs
+    default-language: Haskell2010
     build-depends:    
         base ^>=4.18.3.0,
-        containers,
-        array
-    hs-source-dirs:   quest15
-    default-language: Haskell2010
+        split,
+        containers
+    hs-source-dirs:   quest16
+    main-is:          quest16.hs
